@@ -6,11 +6,11 @@ use cyclonephp\database\AbstractCompiler;
 class MySQLCompiler extends AbstractCompiler {
     
     /**
-     * @var \MySQLi
+     * @var MySQLConnection
      */
     private $connection;
     
-    public function __construct(\MySQLi $connection) {
+    public function __construct(MySQLConnection $connection) {
         $this->connection = $connection;
     }
 
@@ -19,7 +19,7 @@ class MySQLCompiler extends AbstractCompiler {
     }
 
     public function escapeParameter($param) {
-        return "'" . $this->connection->real_escape_string($param) . "'";
+        return "'" . $this->connection->getConnection->real_escape_string($param) . "'";
     }
 
     
