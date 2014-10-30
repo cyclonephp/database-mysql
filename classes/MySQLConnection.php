@@ -83,8 +83,13 @@ class MySQLConnection implements Connection {
         if ( ! $this->getConnection()->commit())
             throw $this->exceptionForConnectionError('failed to commit transaction: ');
         
-        $this->setAutocommit(true);
+        $this->finishTransaction();
         return $this;
+    }
+    
+    private function finishTransaction() {
+        $this->setAutocommit(true);
+        $this->inTransaction = false;
     }
 
     /**
@@ -120,7 +125,7 @@ class MySQLConnection implements Connection {
         if ( ! $this->getConnection()->rollback())
             throw $this->exceptionForConnectionError('failed to rollback: ' );
         
-        $this->setAutocommit(true);
+        $this->finishTransaction();
         return $this;
     }
     
@@ -137,6 +142,7 @@ class MySQLConnection implements Connection {
             throw new DatabaseException('connection is already in transaction');
         
         $this->setAutocommit(false);
+        $this->inTransaction = true;
         return $this;
     }
 
