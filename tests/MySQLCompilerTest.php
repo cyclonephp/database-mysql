@@ -1,17 +1,12 @@
 <?php
 namespace cyclonephp\database\mysql;
 
-use cyclonephp\database\DB;
-
 class MySQLCompilerTest extends \PHPUnit_Framework_TestCase {
     
-    public function testEscapeParameter() {
+    public function testEscapeIdentifier() {
         $conn = $this->getMock('mysqli');
-        $conn->expects($this->once())
-                ->method('real_escape_string')
-                ->with($this->equalTo('param'))
-                ->willReturn('escapedparam');
-        $this->assertEquals('escapedparam', (new MySQLCompiler($conn))->escapeParameter('param'));
+        $subject = new MySQLCompiler($conn);
+        $this->assertEquals("`id`", $subject->escapeIdentifier('id'));
     }
     
 }
