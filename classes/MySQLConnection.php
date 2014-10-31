@@ -43,7 +43,7 @@ class MySQLConnection implements Connection {
             if ($socket === null) {
                 $socket = ini_get('mysqli.default_socket');
             }
-            $conn = new \MySQLi($host, $username, $password, $database, $port, $socket);
+            $conn = @new \MySQLi($host, $username, $password, $database, $port, $socket);
             if (mysqli_connect_errno())
                 throw new ConnectionException('failed to connect: ' . mysqli_connect_error());
             if ($charset !== null) {
@@ -69,6 +69,10 @@ class MySQLConnection implements Connection {
      */
     private $inTransaction = false;
 
+    /**
+     * @param callable $connectionProvider a callable returning a MySQLi instance
+     *  to be used by this connection
+     */
     public function __construct(callable $connectionProvider) {
         $this->connectionProvider = $connectionProvider;
     }
