@@ -13,7 +13,7 @@ class MySQLConnectionTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \cyclonephp\database\ConnectionException
      */
     public function testConnectionFailure() {
-        MySQLConnection::forConnectionInfo('whateverhost', 'somebody', 'top secret', 'foo')
+        MySQLConnection::forConnectionInfo('localhost', 'somebody', 'top secret', 'foo')
             ->connect();
     }
     

@@ -16,21 +16,25 @@ class MySQLExecutor implements Executor {
 
     
     public function execDelete($deleteStmt) {
-        $mysqli = $this->connection->getConnection();
-        $mysqli->query($deleteStmt);
-        return $mysqli->affected_rows;
+        return $this->execDMLStatement($deleteStmt);
     }
 
     public function execInsert($insertStmt) {
-        
+        return $this->execDMLStatement($deleteStmt);
     }
 
     public function execQuery($queryString) {
         
     }
+    
+    private function execDMLStatement($stmt) {
+        $mysqli = $this->connection->getConnection();
+        $mysqli->query($stmt);
+        return $mysqli->affected_rows;
+    }
 
     public function execUpdate($updateStmt) {
-        
+        return $this->execDMLStatement($deleteStmt);
     }
 
     
