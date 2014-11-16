@@ -20,16 +20,25 @@ class MySQLExecutor implements Executor {
     }
 
     public function execInsert($insertStmt) {
-        return $this->execDMLStatement($deleteStmt);
+        return $this->execDMLStatement($insertStmt);
     }
 
     public function execQuery($queryString) {
-        
+        $conn = $this->connection->getConnection();
+        $result = $conn->query($queryString);
+        if ($result === false)
+            throw (new ExceptionBuilder($conn->error, $conn->errno))->buildException();
+        return new MySQLQueryResult($result);
     }
+    
+    
     
     private function execDMLStatement($stmt) {
         $mysqli = $this->connection->getConnection();
-        $mysqli->query($stmt);
+        $result = $mysqli->query($stmt);
+        if ($result === false)
+            throw (new ExceptionBuilder($mysqli->error, $mysqli->errno))->buildException();
+        
         return $mysqli->affected_rows;
     }
 

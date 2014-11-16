@@ -19,7 +19,7 @@ class MySQLCompiler extends AbstractCompiler {
     }
 
     public function escapeParameter($param) {
-        return "'" . $this->connection->getConnection->real_escape_string($param) . "'";
+        return "'" . $this->connection->getConnection()->real_escape_string($param) . "'";
     }
 
     
